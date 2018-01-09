@@ -44,6 +44,11 @@
                             <input type="submit" class="btn btn-primary" value="Отправить сообщение" />
                         </div>
                     </form>
+                    <form id="clearForm">
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary" value="Очистить" />
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -68,6 +73,7 @@
                 var $messageArea = $('#messageArea');
                 var $users = $('#users');
                 var $username = $('#username');
+                var $clearForm = $('#clearForm');
 
                 $messageForm.submit(function(e){
                     e.preventDefault();
@@ -81,7 +87,7 @@
                         colors[data.user] = getRandomColor();
                         $("<style type='text/css'> ." + data.user + "{ color:" + colors[data.user] + "; font-weight:bold;} </style>").appendTo("head");                        
                     }
-                    $chat.append('<div class="well"><span  class=' + data.user + '>' +  data.user + '</strong></span>:' + data.msg + '</div>');
+                    $chat.append('<div class="well message"><span  class=' + data.user + '>' +  data.user + '</strong></span>: ' + data.msg + '</div>');
                 });
 
                 $userForm.submit(function(e){
@@ -96,6 +102,15 @@
                     $username.val('');
                 });
 
+                $clearForm.submit(function(e){
+                    e.preventDefault();
+
+                    var messages = document.getElementsByClassName('message');
+                    console.log(messages);
+                    for(let i = 0; i < messages.length; i++){
+                        messages[i].remove();
+                    }
+                });
                 socket.on('get users', function(data){
                     var html = '';
                     for(let i = 0; i < data.length; i++){
