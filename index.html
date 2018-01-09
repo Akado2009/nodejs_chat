@@ -48,6 +48,16 @@
             </div>
         </div>
         <script>
+            var colors = {};
+
+            function getRandomColor() {
+                var letters = '0123456789ABCDEF';
+                var color = '#';
+                for (var i = 0; i < 6; i++) {
+                  color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+              }
             $(function(){
                 var socket = io.connect();
                 var $messageForm = $('#messageForm');
@@ -67,8 +77,11 @@
                 });
 
                 socket.on('new message', function(data){
-                    console.log(data);
-                    $chat.append('<div class="well"><strong>'+data.user+'</strong>:'+data.msg+'</div>');
+                    if (!colors[data.user]){
+                        colors[data.user] = getRandomColor();
+                        $("<style type='text/css'> ." + data.user + "{ color:" + colors[data.user] + "; font-weight:bold;} </style>").appendTo("head");                        
+                    }
+                    $chat.append('<div class="well"><span  class=' + data.user + '>' +  data.user + '</strong></span>:' + data.msg + '</div>');
                 });
 
                 $userForm.submit(function(e){
