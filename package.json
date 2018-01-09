@@ -20,8 +20,5 @@
   "dependencies": {
     "express": "^4.16.2",
     "socket.io": "^2.0.4"
-  },
-  "engines": {
-    "node": "4.0.0"
   }
 }
